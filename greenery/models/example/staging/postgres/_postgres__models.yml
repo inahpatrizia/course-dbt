@@ -1,0 +1,72 @@
+
+models:
+  - name: stg_addresses
+    description: Contains address information
+    columns:
+      - name: address_id
+      - name: address
+      - name: zipcode
+      - name: state
+      - name: country
+
+  - name: stg_events
+    description: Contains event tracking data
+    columns:
+      - name: event_id
+      - name: session_id
+      - name: user_id
+      - name: page_url
+      - name: created_at
+      - name: event_type
+      - name: order_id
+      - name: product_id
+
+  - name: stg_order_items
+    description: Contains data for items in order
+    columns:
+      - name: order_id
+      - name: product_id
+      - name: quantity
+
+  - name: stg_orders
+    description: Contains order information
+    columns:
+      - name: order_id
+      - name: user_id
+      - name: promo_id
+      - name: address_id
+      - name: created_at
+      - name: order_cost
+      - name: shipping_cost
+      - name: order_total
+      - name: tracking_id
+      - name: shipping_service
+      - name: estimated_delivery_at
+      - name: delivered_at
+      - name: status
+
+  - name: stg_products
+    description: Contains order information
+    columns:
+      - name: product_id
+      - name: discount
+      - name: status
+
+  - name: stg_promos
+    description: Contains promo information
+    columns:
+      - name: promo_id
+      - name: discount
+      - name: status
+
+  - name: stg_users
+    description: Contains promo information
+    columns:
+      - name: user_id
+      - name: first_name
+      - name: last_name
+      - name: email
+      - name: phone_number
+      - name: created_at
+      - name: updated_at
+      - name: address_id
