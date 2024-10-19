@@ -13,9 +13,8 @@ session_timing_agg as (
     select * from {{ ref('int_session_timings') }}
 )
 
-select  e.session_id,
+select  distinct e.session_id,
         e.user_id,
-        coalesce(e.product_id, oi.product_id) as product_id,
         session_started_at,
         session_ended_at,
         sum(case when e.event_type = 'page_view' then 1 else 0 end) as page_view,
@@ -24,7 +23,6 @@ select  e.session_id,
         sum(case when e.event_type = 'package_shipped' then 1 else 0 end) as packages_shipped,
         datediff('minute', session_started_at, session_ended_at) as session_length_minutes
 from events e 
-left join order_items oi on e.order_id = oi.order_id
 left join session_timing_agg s on s.session_id = e.session_id
-group by 1,2,3,4,5
+group by 1,2,3,4
 
