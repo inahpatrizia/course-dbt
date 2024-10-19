@@ -1,35 +1,56 @@
+version: 2 
 
 models:
   - name: stg_addresses
-    description: Contains address information
+    description: "Contains address information"
     columns:
       - name: address_id
+        tests:
+          - not_null
+          - unique
       - name: address
       - name: zipcode
+        tests:
+          - not_null
       - name: state
       - name: country
 
+
   - name: stg_events
-    description: Contains event tracking data
+    description: "Contains event tracking data"
     columns:
       - name: event_id
+        tests:
+          - not_null
+          - unique
       - name: session_id
       - name: user_id
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
       - name: page_url
       - name: created_at
       - name: event_type
+        tests:
+          - accepted_values:
+              values: 
+                - checkout
+                - package_shipped
+                - add_to_cart
+                - page_view
       - name: order_id
       - name: product_id
 
   - name: stg_order_items
-    description: Contains data for items in order
+    description: "Contains data for items in order"
     columns:
       - name: order_id
       - name: product_id
       - name: quantity
 
   - name: stg_orders
-    description: Contains order information
+    description: "Contains order information"
     columns:
       - name: order_id
       - name: user_id
@@ -46,21 +67,21 @@ models:
       - name: status
 
   - name: stg_products
-    description: Contains order information
+    description: "Contains order information"
     columns:
       - name: product_id
       - name: discount
       - name: status
 
   - name: stg_promos
-    description: Contains promo information
+    description: "Contains promo information"
     columns:
       - name: promo_id
       - name: discount
       - name: status
 
   - name: stg_users
-    description: Contains promo information
+    description: "Contains promo information"
     columns:
       - name: user_id
       - name: first_name
