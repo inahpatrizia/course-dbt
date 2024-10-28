@@ -28,6 +28,13 @@ I added `dim_users` and `dim_products` so that analysts have dimension tables th
 
 ## Part 2. Tests
 
+**Q: What assumptions are you making about each model? (i.e. why are you adding each test?)**
+
+I added the `unique` and `not_null` tests to primary keys in the new tables that were created. I also added `relationship` tests for user ID.
+    
+**Q: Did you find any “bad” data as you added and ran tests on your models? How did you go about either cleaning the data in the dbt model or adjusting your assumptions/tests?**
+The `unique` test on `fact_page_views.session_id` failed because it originally joined to `stg_order_items` which duplicated the sessions in the table. I removed the join as it didn't make sense to have the table be at a session/user/product granularity and re-ran the tests successfully.
+
 **Q: Your stakeholders at Greenery want to understand the state of the data each day. Explain how you would ensure these tests are passing regularly and how you would alert stakeholders about bad data getting through.**
 
 A: I'd automate a report that shows which tests fail when the data is refreshed at whatever cadence was set (usually before the start of the business hours). If the it's an easy fix, I'll deploy a change but if it requires more investigations, I'd communicate what the issue is and focus on the impact to the stakeholder. I would commit to an update timeline until the issue is resolved.
