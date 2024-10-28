@@ -1,4 +1,4 @@
-## Part 1. Create new models to answer the first two questions
+## Part 1. Create new models to answer the first two questions (answer questions in README file)
 
 **Q: What is our overall conversion rate?**
   A: 62%
@@ -71,3 +71,15 @@
     left join product_page_view ppv on p.product_id = ppv.product_id
     left join product_checkouts pc on p.product_id = pc.product_id
     order by 5 desc
+
+## Part 6. dbt Snapshots
+**Q: Which products had their inventory change from week 2 to week 3?**
+Philodendron, Bamboo, Monstera and ZZ Plant had their inventories change.
+
+    select  product_id, 
+            name,
+            sum(case when dbt_valid_from = '2024-10-19 00:13:45.549' and dbt_valid_to = '2024-10-28 20:47:09.780' then inventory end) as week2_inventory,
+            sum(case when dbt_valid_from = '2024-10-28 20:47:09.780' then inventory end) as week3_inventory
+    from DEV_DB.DBT_INAHPATRIZIAGMAILCOM.PRODUCTS_SNAPSHOT ps
+    group by 1,2
+    order by 3 
