@@ -1,0 +1,8 @@
+macros:
+  - name: sum_of
+    description: aggregation function that sums a column with a specific value
+    arguments:
+      - name: col_name
+        description: the name of the column you're aggregating
+      - name: col_value
+        description: target value of the column

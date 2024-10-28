@@ -60,6 +60,10 @@ models:
       - name: order_cost
       - name: shipping_cost
       - name: order_total
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1000
       - name: tracking_id
       - name: shipping_service
       - name: estimated_delivery_at
@@ -91,3 +95,74 @@ models:
       - name: created_at
       - name: updated_at
       - name: address_id
+
+  - name: dim_product
+    description: "Product information"
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique 
+      - name: name
+      - name: price
+
+  - name: dim_users
+    description: "User information"
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique 
+      - name: created_at
+      - name: address_id
+      - name: zipcode
+      - name: state
+      - name: country
+
+  - name: fact_orders
+    description: "Order information"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique 
+      - name: user_id
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: promo_id
+      - name: address_id
+      - name: country
+      - name: state
+      - name: created_at
+      - name: order_cost
+      - name: shipping_cost
+      - name: order_total
+      - name: tracking_id
+      - name: shipping_service
+      - name: estimated_delivery_at
+      - name: delivered_at
+      - name: status as order_status
+      - name: products_in_orders
+
+  - name: fact_page_views
+    description: "Session information"
+    columns:
+      - name: session_id
+        tests:
+          - not_null
+          - unique 
+      - name: user_id
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: product_id
+      - name: session_started_at
+      - name: session_ended_at
+      - name: page_view
+      - name: add_to_cart
+      - name: checkout
+      - name: packages_shipped
+      - name: session_length_minutes
